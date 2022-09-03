@@ -1,0 +1,21 @@
+{
+  "name": "feed_my_wg_app",
+  "version": "1.0.0",
+  "description": "Empty fridge? We support you to get off the couch and feed your WG!",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server -c-1"
+  },
+  "keywords": [
+    "pwa",
+    "hungry",
+    "WG",
+    "food",
+    "special offers"    
+  ],
+  "author": "Nyco C. Bischoff",
+  "licence": "OSL-3.0",
+  "devDependencies": {
+    "http-server": "^14.1.0"
+  }
+}
