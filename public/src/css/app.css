@@ -1,0 +1,67 @@
+.text-center {
+  text-align: center;
+  color:aqua
+}
+
+.drawer-option {
+  padding: 16px;
+}
+
+.flex_container{
+  display: flex;
+}
+
+
+
+#main_image_text{
+  position: relative;
+  
+  font-weight: bold;
+  font-size:x-large;
+}
+
+.shared-recipes{
+  padding-left: 50px;
+  padding-top: 100px;
+  padding-right: 10px; 
+  place-items: bottom;
+  list-style:none;
+  
+}
+
+.empty_fridge-image.mdl-card{
+  width: 256px;
+  height: 256px;
+  position: absolute;
+  bottom: 10px;
+  background: url('/src/images/empty_frisep_m.png') center / cover;
+}
+.empty_fridge-image > .mdl-card__actions {
+  height: 52px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.2);
+}
+.empty_fridge-image__title {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.shared-recipe-card{
+  max-width: 100%;
+  
+  margin: auto;
+  margin-top:40px;
+  display: block;
+}
+
+.shared-recipe-card >.mdl-card__title-text{
+  color:cyan;
+  text-align:right;
+}
+
+
+
+
+
+

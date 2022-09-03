@@ -1,0 +1,54 @@
+{
+    "name": "Feed your WG - we help you fill your fridge",
+    "short_name": "WG_Food",
+    "start_url":"/index.html",
+    "id":"/index.html",
+    "scope":".",
+    "display":"standalone",
+    "background_color":"#00b7c0",
+    "theme_color": "#00b7c0",
+    "description": "Get off the couch and feed your WG!",
+    "direction": "ltr",
+    "lang":"en-US",
+    "orientation": "portrait-primary", 
+    "icons":
+    [
+  { "src": "/src/images/icons/manifest-icon-144.maskable.png",
+    "sizes": "144x144",
+    "type": "image/png",
+    "purpose": "any"
+  },
+  {
+    "src": "/src/images/icons/manifest-icon-144.maskable.png",
+    "sizes": "144x144",
+    "type": "image/png",
+    "purpose": "maskable"
+  },
+      
+  {
+    "src": "/src/images/icons/manifest-icon-192.maskable.png",
+    "sizes": "192x192",
+    "type": "image/png",
+    "purpose": "any"
+  },
+  {
+    "src": "/src/images/icons/manifest-icon-192.maskable.png",
+    "sizes": "192x192",
+    "type": "image/png",
+    "purpose": "maskable"
+  },
+  {
+    "src": "/src/images/icons/manifest-icon-512.maskable.png",
+    "sizes": "512x512",
+    "type": "image/png",
+    "purpose": "any"
+  },
+  {
+    "src": "/src/images/icons/manifest-icon-512.maskable.png",
+    "sizes": "512x512",
+    "type": "image/png",
+    "purpose": "maskable"
+  }
+      
+      ]
+}
