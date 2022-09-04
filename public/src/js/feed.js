@@ -5,7 +5,36 @@ console.log('hello,hello, feed.js here')
 
 var sharedRecipesArea = document.querySelector('#shared-recipes');
 
+//Unregistering a serviceworker:
 
+/* if('serviceWorker' in navigator){
+  navigator.serviceWorker.getRegistrations()
+  .then(function(registrations){
+    for (var i = 0; i < registrations.length; i++){
+      registrations[i].unregister();
+    }
+  })
+} */
+
+
+//Currently not in use, enables caching recipes on demand
+function getRecipe(event){
+  console.log('clicked');
+  if ('caches' in window){
+    caches.open('user-request')
+  .then((cache)=>{
+    cache.add('https://httpbin.org/get');
+    cache.add('/src/images/summerrolls.jpg');
+    console.log('added user-request')
+  });
+  }  
+}
+
+function clearCards(){
+  while(sharedRecipesArea.hasChildNodes()){
+    sharedRecipesArea.removeChild(sharedRecipesArea.lastChild);
+  }
+}
 
 function createCard() {
   console.log('executing createCard')
@@ -32,55 +61,58 @@ function createCard() {
   recipe_button.className='mdl-button mdl-button--raised mdl-button--colored';
   recipe_button.textContent = 'get recipe';
   recipe_button.style.textAlign = 'center';
+  //recipe_button.addEventListener('click',getRecipe);
   cardWrapper.appendChild(recipe_button)
   componentHandler.upgradeElement(cardWrapper);
   sharedRecipesArea.appendChild(cardWrapper);
   console.log('executed createCard');
 } 
 
-
-
-
 function openCreatePostModal() {
   createPostArea.style.display = 'block';
 }
-
 function closeCreatePostModal() {
   createPostArea.style.display = 'none';
 }
 
-shareImageButton.addEventListener('click', openCreatePostModal);
 
+shareImageButton.addEventListener('click', openCreatePostModal);
 closeCreatePostModalButton.addEventListener('click', closeCreatePostModal);
 
 
- fetch('https://httpbin.org/get')
+//Fetching
+var networkDataReceived = false;
+var url = 'https://httpbin.org/get';
+
+fetch('https://httpbin.org/get')
 .then((res)=>{
     return res.json();})
-.then(function(data){
+.then((data)=>{
+  console.log('From web', data);
+  console.log('executing clearCards');
+  clearCards();
+  console.log('executed clearCards');
+  console.log('creating new card');
   createCard()});
+  
 
+if ('caches' in window){
+  caches.match(url)
+  .then((response)=>{
+    if(response){
+      return response.json();
+    }
+  })
+  .then(function(data){
+    console.log('From cache',data);
+    if(!networkDataReceived){
+      console.log('executing clearCards');
+      clearCards();
+      console.log('executed clearCards');
+      console.log('creating new card');
+      createCard();
+    }
+    
+  });
+}
 
-// Anfrage ans backend: (lektion indexedDB)
-//fetch('http://localhost:3000/posts')
- // .then((res) => {
- //   return res.json();   //wenn einzige anweisung return ist, dann geht auch folgende
-//notation: (res) => res.json(); result: array aus allen geepeicherten posts
-//  })
-//  .then(function(data){
-//    updateUI(data);
-//  })
-
-//  function updateUI(data)
- // {
- //   for (let post of data)
- //   {
- //     createCard(post);
- //   }
- // }
-
-var promise = new Promise(function(resolve, reject){
-  //  setTimeout(function(){
-      resolve(createCard);
-        reject({message:'An error occurred'});
-   });
