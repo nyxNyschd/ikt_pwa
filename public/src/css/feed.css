@@ -1,4 +1,4 @@
-#create-post {
+#post-recipe {
   z-index: 1001;
   position: fixed;
   width: 100%;
@@ -9,10 +9,11 @@
   background: white;
   text-align: center;
   display: none;
+ 
 }
 
 .main-image {
-  max-width: 200%;  
+  max-width: 100%;  
   margin: auto;
   display: block;
 }
@@ -30,7 +31,31 @@
   margin: 10px auto;
 }
 
+.shared-recipe-card.mdl-card{
+  width: 332px;  
+  height: 320px;
+  color:white;
+  margin: auto;
+  margin-top:40px;
+  display: block;
+}
 
+@media(min-width: 600px) {
+  .shared-recipe-card.mdl-card{
+    width: 332px;
+}
+
+.shared-recipe-card.mdl-card__title-text{
+  padding: 10px;
+  color:black;
+  text-align:center;
+  font-size:large;
+}
+
+#recipe_button{
+  display:block;
+  margin:auto;
+}
 
 .mdl-layout--fixed-drawer{
   display:block;

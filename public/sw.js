@@ -1,11 +1,17 @@
-var CACHE_STATIC_NAME = 'static-v23';
-var CACHE_DYNAMIC_NAME = 'dynamic-v2';
+//if( 'undefined' === typeof window){
+importScripts('/src/js/idb.js');
+importScripts('src/js/utility.js');
+//} 
+
+var CACHE_STATIC_NAME = 'static-v10';
+var CACHE_DYNAMIC_NAME = 'dynamic-v6';
 var STATIC_FILES = [
     '/',
     '/index.html',
     '/offline.html',
     '/src/js/app.js',
     '/src/js/feed.js',
+    '/src/js/idb.js',
     '/src/js/material.min.js',
     '/src/css/app.css',
     '/src/css/feed.css',
@@ -29,6 +35,13 @@ var STATIC_FILES = [
     });
 })
 } */
+
+//open indexedDB
+/* var dbPromise = idb.open('food-store', 1, function(db){
+    if (!db.objectStoreNames.contains('posts')){
+    db.createObjectStore('posts', {keyPath: 'id'});
+    }
+});  */
 
 self.addEventListener('install', event =>{
     console.log('[Service Worker] Installing Service Worker ...', event);
@@ -67,19 +80,26 @@ function isInArray(string, array){
 
 //Cache Then Network with Offline function
 self.addEventListener('fetch', event =>{
+
+    var url = 'https://wg-food-default-rtdb.europe-west1.firebasedatabase.app/posts';
    
-    if (event.request.url.indexOf('https://httpbin.org/get') > -1){
-        event.respondWith(
-            caches.open(CACHE_DYNAMIC_NAME)
-            .then((cache)=>{
-                return fetch(event.request)
-                .then((res)=>{
-                  //  trimCache(CACHE_DYNAMIC_NAME, 5);
-                    cache.put(event.request, res.clone());
-                    return res;
-                });
-            })
-            );  
+    if (event.request.url.indexOf(url) > -1){
+        event.respondWith(fetch(event.request)
+        .then((res)=>{                                            //  caches.open(CACHE_DYNAMIC_NAME)  .then((cache)=>{   return
+            var clonedRes = res.clone();                                                           //  trimCache(CACHE_DYNAMIC_NAME, 5);
+            clearAllData('posts')                                 //cache.put(event.request, res.clone());
+            .then(()=>{
+                return clonedRes.json();
+            })                                                        
+            .then((data)=>{
+                for (var key in data) {
+                    //dbPromise //access promise and store posts
+                    writeData('posts',data[key])
+                }
+            });
+            return res;
+    })            
+    );  
     } 
     else if(isInArray(event.request.url, STATIC_FILES)){
         event.respondWith(
