@@ -4,10 +4,9 @@ var closeShareRecipeAreaButton = document.querySelector('#close-post-recipe');
 var sharedRecipesArea = document.querySelector('#shared-recipes');
 var form = document.querySelector('form');
 var titleInput = document.querySelector('#title');
-//var location = document.querySelector('#location');
 
 form.addEventListener('submit', function(event){
-  event.preventDefault(); //default of submit event: send data to server
+  event.preventDefault(); 
 
   if(titleInput.value.trim()=== '' || location.value.trim() ===''){
     alert('Please enter valid data.')
@@ -90,14 +89,16 @@ function createCard(data) {
   //cardSupportingText.textContent = data.title;
   cardSupportingText.style.textAlign = 'center';
   cardWrapper.appendChild(cardSupportingText);
+  let recipe_button_link = document.createElement('a');
+  recipe_button_link.href = data.recipe;
+  recipe_button_link.style.textDecoration = 'none';
   let recipe_button = document.createElement('button');
   recipe_button.className = 'mdl-button mdl-button--raised mdl-button--colored';
   recipe_button.id = 'recipe_button';
   recipe_button.textContent = 'get recipe';
   recipe_button.style.textAlign = 'center';
-  
-  // recipe_button.addEventListener('click',window.open(data.recipe));
-  cardWrapper.appendChild(recipe_button);
+  recipe_button_link.appendChild(recipe_button);
+  cardWrapper.appendChild(recipe_button_link);
   componentHandler.upgradeElement(cardWrapper);
   sharedRecipesArea.appendChild(cardWrapper);
   console.log('executed createCard');
