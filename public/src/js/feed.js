@@ -2,11 +2,11 @@ var shareRecipeButton = document.querySelector('#share-recipe-button');
 var postRecipeArea = document.querySelector('#post-recipe');
 var closeShareRecipeAreaButton = document.querySelector('#close-post-recipe');
 var sharedRecipesArea = document.querySelector('#shared-recipes');
-//var form = document.querySelector('form');
-//var titleInput = document.querySelector('#title');
+var form = document.querySelector('form');
+var titleInput = document.querySelector('#title');
 //var location = document.querySelector('#location');
 
-/* form.addEventListener('submit', function(event){
+form.addEventListener('submit', function(event){
   event.preventDefault(); //default of submit event: send data to server
 
   if(titleInput.value.trim()=== '' || location.value.trim() ===''){
@@ -16,7 +16,7 @@ var sharedRecipesArea = document.querySelector('#shared-recipes');
     closePostRecipeArea();
   }
 
-}); */
+}); 
 
 function openPostRecipeArea(){
   postRecipeArea.style.display = 'block';
@@ -46,8 +46,8 @@ function closePostRecipeArea() {
   postRecipeArea.style.transform = 'translateY(100vh)';
 }
 
-//shareRecipeButton.addEventListener('click', openPostRecipeArea);
-//closeShareRecipeAreaButton.addEventListener('click', closePostRecipeArea);
+shareRecipeButton.addEventListener('click', openPostRecipeArea);
+closeShareRecipeAreaButton.addEventListener('click', closePostRecipeArea);
 
 
 //Currently not in use, enables caching recipes on demand
