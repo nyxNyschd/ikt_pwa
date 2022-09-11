@@ -45,11 +45,11 @@
     width: 332px;
 }
 
-.shared-recipe-card.mdl-card__title-text{
+.mdl-card__title-text{
   padding: 10px;
-  color:black;
   text-align:center;
-  font-size:large;
+  font-size: x-large;
+  text-shadow: 1px 1px black;
 }
 
 #recipe_button{

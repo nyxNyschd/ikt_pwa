@@ -82,12 +82,12 @@ function createCard(data) {
   cardWrapper.appendChild(cardTitle);
   let cardTitleTextElement = document.createElement('h2');
   cardTitleTextElement.className = 'mdl-card__title-text';
-  //cardTitleTextElement.textContent = 'Food tipp';
+  cardTitleTextElement.textContent = data.title;
   cardTitle.appendChild(cardTitleTextElement);
-  cardTitleTextElement.style.color = 'black';
+  cardTitleTextElement.style.color = '#40C4FF';
   let cardSupportingText = document.createElement('div');
   cardSupportingText.className = 'mdl-card__title-text';
-  cardSupportingText.textContent = data.title;
+  //cardSupportingText.textContent = data.title;
   cardSupportingText.style.textAlign = 'center';
   cardWrapper.appendChild(cardSupportingText);
   let recipe_button = document.createElement('button');
