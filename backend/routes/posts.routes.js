@@ -19,6 +19,7 @@ router.post('/', async(req, res) => {
     }) 
     await newPost.save(); 
     res.send(newPost); 
+    
 });  
 
 // POST one post via id
