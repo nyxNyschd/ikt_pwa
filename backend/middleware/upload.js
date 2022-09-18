@@ -1,7 +1,7 @@
 
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
-const url = "mongodb://127.0.0.1:27017/posts"
+const url = "mongodb://127.0.0.1:27017/posts";
 
  const storage = new GridFsStorage({
     url,
@@ -13,9 +13,9 @@ const url = "mongodb://127.0.0.1:27017/posts"
             console.log('file.mimetype === -1')
             return `${Date.now()}-nb-${file.originalname}`;
         }
-        console.log('store');
+        console.log('storing');
         return {
-            bucketName: 'posts',
+            bucketName: 'uploads',
             filename: `${Date.now()}-jf-${file.originalname}`,
         };
     },

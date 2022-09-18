@@ -11,7 +11,7 @@ router.post('/', upload.single('file'), (req, res) => {
         });
     } else {
         console.log('req.file', req.file);
-        const imgUrl = `http://localhost:4000/download/${req.file.filename}`;
+        const imgUrl = `http://localhost:4000/download/${req.file.originalname}`;
         return res.status(201).send({
             url: imgUrl
         });

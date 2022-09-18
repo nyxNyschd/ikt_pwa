@@ -13,7 +13,7 @@ const PORT = 3000;
 app.use(express.json());
 app.use(cors());
 //app.use('/', routes);
-app.use('/posts', postsRoutes);
+app.use('/', postsRoutes);
 app.use('/img', uploadRoutes);
 
 app.listen(PORT, (error) =>{
