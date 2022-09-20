@@ -4,18 +4,65 @@ var closeShareRecipeAreaButton = document.querySelector('#close-post-recipe');
 var sharedRecipesArea = document.querySelector('#shared-recipes');
 var form = document.querySelector('form');
 var titleInput = document.querySelector('#title');
+var recipeInput = document.querySelector('#recipe');
+
+
+function sendData(){
+  fetch('https://us-central1-wg-food.cloudfunctions.net/storeRecipes', {
+    method:'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      id: new Date().toISOString(),
+      title: titleInput.value,
+      recipe: recipeInput.value,
+      image: 'https://firebasestorage.googleapis.com/v0/b/wg-food.appspot.com/o/summerrolls_sm.jpg?alt=media&token=3a51d92a-0580-4741-855b-cc98348d42be'
+    })
+  })
+  .then((res)=>{
+    console.log('Sent data', res);
+    updateUI();
+  })
+}
 
 form.addEventListener('submit', function(event){
   event.preventDefault(); 
 
-  if(titleInput.value.trim()=== '' || location.value.trim() ===''){
+  if(titleInput.value.trim()=== '' || recipe.value.trim() ===''){
     alert('Please enter valid data.')
-    return;
-  }else{
-    closePostRecipeArea();
+    return closePostRecipeArea();
   }
+  /*  
+  
+  if('serviceWorker' in navigator && 'SyncManager' in window){
+    navigator.serviceWorker.ready
+    .then(function(sw){
+    var post = {
+      id: new Date().toISOString(),
+      title: titleInput.value,
+      recipe: recipeInput.value
+    };
+    writeData('sync-posts', post)
+    .then(()=>{
+      return sw.sync.register('sync-new-post');
+    })
+    .then(()=>{
+      var snackbarContainer = document.querySelector('#confirmation-toast');
+      var data = {message: 'Your recipe was saved for syncing!'};
+      snackbarContainer.MaterialSnackbar.showSnackbar(data);
+    })
+    .catch((err)=>{
+      console.log(err);
+    });      
+  });
+}*/
+else { 
+  sendData();
+}
 
-}); 
+});  
 
 function openPostRecipeArea(){
   postRecipeArea.style.display = 'block';
@@ -41,8 +88,8 @@ function openPostRecipeArea(){
 
 function closePostRecipeArea() {
   console.log('closing share recipes');
-  postRecipeArea.style.display = 'none';
   postRecipeArea.style.transform = 'translateY(100vh)';
+  
 }
 
 shareRecipeButton.addEventListener('click', openPostRecipeArea);

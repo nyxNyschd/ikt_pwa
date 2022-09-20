@@ -1,9 +1,8 @@
-//if( 'undefined' === typeof window){
+
 importScripts('/src/js/idb.js');
 importScripts('src/js/utility.js');
-//} 
 
-var CACHE_STATIC_NAME = 'static-v11';
+var CACHE_STATIC_NAME = 'static-v12';
 var CACHE_DYNAMIC_NAME = 'dynamic-v6';
 var STATIC_FILES = [
     '/',
@@ -138,8 +137,82 @@ self.addEventListener('fetch', event =>{
     
 });
    
+self.addEventListener('sync', (event)=>{
+    console.log('[Service Worker] Background Syncing', event);
+    if(event.tag === 'sync-new-post'){
+        console.log('[Service Worker] Syncing new post');
+        event.waitUntil(
+            readAllData('sync-posts')
+            .then((data)=>{
+                for (var dat of data){
+                    fetch('https://us-central1-wg-food.cloudfunctions.net/storeRecipes', {
+                        method:'POST',
+                        headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                        id: dat.id,
+                        title: dat.title,
+                        recipe: dat.recipe,
+                        image: 'https://firebasestorage.googleapis.com/v0/b/wg-food.appspot.com/o/summerrolls_sm.jpg?alt=media&token=3a51d92a-0580-4741-855b-cc98348d42be'
+                        })
+                    })               
+                    .then((res)=>{
+                        console.log('Sent data', res); //now I can send it to firebase endpoint, get id from response
+                    if (res.ok){
+                        res.json()
+                        .then((resData)=>{
+                            deleteSingleItemFromData('sync-posts',resData.id);
+                        });
+                        
+                    }
+                    })
+                    .catch((err)=>{
+                        console.log('Error while sending data',err)
+                    });
 
+                }   
+        
+            })
+        );
+    }
+});
 
+self.addEventListener('notificationclick', (event)=>{
+    var notification = event.notification;
+    var action = event.action;
+
+    console.log(notification);
+
+    if (action === 'confirm'){
+        console.log('User confirmed');
+        notification.close();
+    } else{
+        console.log(action);
+        notification.close();
+    }
+});
+
+self.addEventListener('notificationclose', (event)=>{
+    console.log('Notification was closed')
+});
+
+self.addEventListener('push', (event)=>{
+    console.log('Push Notification received', event);
+
+    var data = {title: 'New dummy', content: 'Something newish happened (not really)'};
+    if(event.data){
+        data = JSON.parse(event.data.text());
+    }
+
+    var options = {
+        body: data.content
+    };
+    event.waitUntil(
+        self.registration.showNotification(data.title, options)
+    );
+});
 
 
 //Cache Then Network 

@@ -7,6 +7,9 @@
   padding: 16px;
 }
 
+.enable-notifications{
+  display:none;
+}
 .flex_container{
   display: flex;
 }
