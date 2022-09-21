@@ -53,28 +53,30 @@ function displayConfirmNotification(){
 function configurePushSubscriptions(){
   if(!('serviceWorker' in navigator)){
     return;
-}
-  var regi;
+  }
+  //var regi;
   navigator.serviceWorker.ready
     .then((swregist)=>{
-      regi = swregist;
+     // regi = swregist;
       return swregist.pushManager.getSubscription();
-    })
+    });/* 
     .then((sub)=>{
       if(sub === null){
         //Create new subscription
-        var vapidPublicKey = 'BNxnE6Mez8eJtSV6IcmOjJNz9sXqU3iMMbEaDVCZFNmIh1QeZmvAUorENV_9tA-mX4IHlY047TLj9jSiCgdJuNo';
+       /*  var vapidPublicKey = 'BNxnE6Mez8eJtSV6IcmOjJNz9sXqU3iMMbEaDVCZFNmIh1QeZmvAUorENV_9tA-mX4IHlY047TLj9jSiCgdJuNo';
         var convertedVapidpubKey = urlBase64ToUint8Array(vapidPublicKey);
         return regi.pushManager.subscribe({
             userVisibleOnly: true,
             applicationServerKey: convertedVapidpubKey
-        });
-      }else{
+        }); */
+   //   }else{
         //We already have a subscription
-      }
-    })
-    .then((newSub)=>{
-      fetch('https://wg-food-default-rtdb.europe-west1.firebasedatabase.app/subscriptions.json', {
+    //  }
+    //});
+ // } */
+    /* .then((newSub)=>{ 
+      return fetch('https://wg-food-default-rtdb.europe-west1.firebasedatabase.app/subscriptions.json', {
+        
         method:'POST',
         headers:{
           'Content-Type': 'application/json',
@@ -90,9 +92,9 @@ function configurePushSubscriptions(){
     })
     .catch((err)=>{
       console.log(err);
-    });
+    });*/
 
-}
+} 
 
 
 function askForNotificationPermission(){
@@ -101,11 +103,10 @@ function askForNotificationPermission(){
     if(result!== 'granted'){
       console.log('No notification permission granted!');
     }else {
-      configurePushSubscriptions();
-      //displayConfirmNotification();
+      //configurePushSubscriptions();
+      displayConfirmNotification();
     }
   });
-
 }
 
 if('Notification' in window && 'serviceWorker' in navigator){
@@ -114,5 +115,4 @@ if('Notification' in window && 'serviceWorker' in navigator){
     enableNotificationsButtons[i].addEventListener('click', askForNotificationPermission);
   }
 }
-
 

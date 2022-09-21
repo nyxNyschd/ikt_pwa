@@ -190,7 +190,21 @@ self.addEventListener('notificationclick', (event)=>{
         notification.close();
     } else{
         console.log(action);
+        /* event.waitUntil(
+            clients.matchAll()
+            .then((cls)=>{
+                var client = cls.find((c)=>{
+                    return c.visibilityState=== 'visible';
+                });
+            if (client !== undefined) //if there is no open window 
+                {client.navigate(notification.data.url);
+            client.focus();
+        } else {
+            client.openWindow(notification.data.url);
+        }
         notification.close();
+            })
+        ); */
     }
 });
 
@@ -201,13 +215,16 @@ self.addEventListener('notificationclose', (event)=>{
 self.addEventListener('push', (event)=>{
     console.log('Push Notification received', event);
 
-    var data = {title: 'New dummy', content: 'Something newish happened (not really)'};
+    var data = {title: 'New dummy', content: 'Something newish happened (not really)', openUrl:'/'};
     if(event.data){
         data = JSON.parse(event.data.text());
     }
 
     var options = {
-        body: data.content
+        body: data.content,
+        data: {
+            url: data.openUrl
+        }
     };
     event.waitUntil(
         self.registration.showNotification(data.title, options)

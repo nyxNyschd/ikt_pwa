@@ -23,7 +23,7 @@ function sendData(){
   })
   .then((res)=>{
     console.log('Sent data', res);
-    updateUI();
+    updateUI(res);
   })
 }
 
@@ -60,6 +60,7 @@ form.addEventListener('submit', function(event){
 }*/
 else { 
   sendData();
+  
 }
 
 });  
@@ -197,6 +198,9 @@ fetch(url)
         console.log('From cache', data);
         updateUI(data);
       }
+    })
+    .catch((err)=>{
+      console.log(err);
     })
     };
 
