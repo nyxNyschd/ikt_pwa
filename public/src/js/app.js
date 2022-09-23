@@ -23,6 +23,7 @@ window.addEventListener('beforeinstallprompt', function(event){
     return false;
 })};
 
+// handling the button to enable notifications: react to user's choice when subscribing
 function displayConfirmNotification(){
   if('serviceWorker' in navigator){
     navigator.serviceWorker.ready
@@ -37,9 +38,10 @@ function displayConfirmNotification(){
         //badge: '/src/images/icons/apple-splash-640-1136.jpg'  //needs to be 96x96,
         tag:'confirm-notification', //to stack notifications
         renotify:true, 
+        // react to user clicking on action buttons in notification window
         actions: [
-          {action: 'confirm', title:'OK'},
-          {action: 'cancel', title:'Cancel'}
+          {action: 'confirm', title:'OK'},  //,icon:'link_to_checkmark_icon'
+          {action: 'cancel', title:'Cancel'} //,icon: 'link to cancel icon'
       ]
       };     
 
@@ -49,34 +51,38 @@ function displayConfirmNotification(){
   }
 }
 
-
+//function to react to user subscribing to notifications
 function configurePushSubscriptions(){
+  //if no serviceworker, then notifications are not supported anyway --> check for feature availibility!
   if(!('serviceWorker' in navigator)){
     return;
   }
-  //var regi;
+  var regi;
   navigator.serviceWorker.ready
     .then((swregist)=>{
-     // regi = swregist;
-      return swregist.pushManager.getSubscription();
-    });/* 
-    .then((sub)=>{
+     regi = swregist;
+
+     //check for existing subscriptions using the current browser-serviceWorker-device combination
+     return swregist.pushManager.getSubscription();
+
+    }) 
+    .then((sub)=>{ 
       if(sub === null){
-        //Create new subscription
-       /*  var vapidPublicKey = 'BNxnE6Mez8eJtSV6IcmOjJNz9sXqU3iMMbEaDVCZFNmIh1QeZmvAUorENV_9tA-mX4IHlY047TLj9jSiCgdJuNo';
+
+        console.log('no existing subscription: Creating a new one')
+
+    //setting up security with vapid keys: setting our server as the only viable source of sending push messages
+        var vapidPublicKey = 'BNxnE6Mez8eJtSV6IcmOjJNz9sXqU3iMMbEaDVCZFNmIh1QeZmvAUorENV_9tA-mX4IHlY047TLj9jSiCgdJuNo';
         var convertedVapidpubKey = urlBase64ToUint8Array(vapidPublicKey);
+
+    //Creating new subscription
         return regi.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: convertedVapidpubKey
-        }); */
-   //   }else{
-        //We already have a subscription
-    //  }
-    //});
- // } */
-    /* .then((newSub)=>{ 
-      return fetch('https://wg-food-default-rtdb.europe-west1.firebasedatabase.app/subscriptions.json', {
-        
+          userVisibleOnly: true, //push notifications only visible to our user                   
+          applicationServerKey: convertedVapidpubKey //sending vapid key
+      })
+      //passing new subscription to server
+      .then((newSub)=>{ 
+        return fetch('https://wg-food-default-rtdb.europe-west1.firebasedatabase.app/subscriptions.json', {
         method:'POST',
         headers:{
           'Content-Type': 'application/json',
@@ -85,26 +91,35 @@ function configurePushSubscriptions(){
         body: JSON.stringify(newSub)
       })
     })
-    .then((res)=>{
+     .then((res)=>{
       if (res.ok){
       displayConfirmNotification();
       }
     })
     .catch((err)=>{
       console.log(err);
-    });*/
+    });       
+             
 
-} 
+      }else{
+        //We already have a subscription
+        console.log('Yeah, we already have a subscription <3', regi)
+      }
+    });
+  } 
+   
 
 
+
+//handling user's choice when asked if they want to subscribe to notifications
 function askForNotificationPermission(){
   Notification.requestPermission((result)=>{
-    console.log('User Choice',result);
+    console.log('User`s choice: permission ',result);
     if(result!== 'granted'){
       console.log('No notification permission granted!');
     }else {
-      //configurePushSubscriptions();
-      displayConfirmNotification();
+      configurePushSubscriptions();
+      //displayConfirmNotification();
     }
   });
 }

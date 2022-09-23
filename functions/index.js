@@ -1,12 +1,12 @@
+//this script configures firebase backend
+
 var functions = require("firebase-functions");
 var admin = require('firebase-admin');
 //const {ref} = require("firebase-functions/v1/database");
 var cors = require('cors')({origin:true});
 var webpush = require('web-push');
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
+//registration and access using key-pair
 var serviceAccount = require("./k/wg-food-firebase-adminsdk-k8n4t-b01aa600ae.json");
 
 admin.initializeApp({
@@ -14,8 +14,10 @@ admin.initializeApp({
     databaseURL: 'https://wg-food-default-rtdb.europe-west1.firebasedatabase.app'
  });
 
+
+ // setting up push notifications to notify when new recipes were added (handling the http request object)
  exports.storeRecipes = functions.https.onRequest((request, response) => {
-   functions.logger.info("Hello logs!", {structuredData: true});
+   functions.logger.info("Logging activity", {structuredData: true});
    cors(request, response, ()=>{
     admin.database().ref('posts').push({
         id: request.body.id,

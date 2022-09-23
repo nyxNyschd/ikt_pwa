@@ -136,6 +136,8 @@ self.addEventListener('fetch', event =>{
      }   
     
 });
+
+//Background syncing - only supported on (original) chrome
    
 self.addEventListener('sync', (event)=>{
     console.log('[Service Worker] Background Syncing', event);
@@ -179,18 +181,21 @@ self.addEventListener('sync', (event)=>{
     }
 });
 
+//adding the notification-listener (notifications are a system event on my computer, handled by the serviceworker!)
 self.addEventListener('notificationclick', (event)=>{
+    //access notification: which notification was clicked
     var notification = event.notification;
-    var action = event.action;
-
     console.log(notification);
 
+    //access action: which action was clicked
+    var action = event.action;
+    
     if (action === 'confirm'){
         console.log('User confirmed');
         notification.close();
     } else{
-        console.log(action);
-        /* event.waitUntil(
+        console.log(action); //show, which action was chosen
+        event.waitUntil(
             clients.matchAll()
             .then((cls)=>{
                 var client = cls.find((c)=>{
@@ -204,7 +209,7 @@ self.addEventListener('notificationclick', (event)=>{
         }
         notification.close();
             })
-        ); */
+        ); 
     }
 });
 

@@ -35,6 +35,8 @@ form.addEventListener('submit', function(event){
     return closePostRecipeArea();
   }
   /*  
+
+  //Background Synchronisation - only supported on (original) chrome   
   
   if('serviceWorker' in navigator && 'SyncManager' in window){
     navigator.serviceWorker.ready
@@ -90,7 +92,7 @@ function openPostRecipeArea(){
 function closePostRecipeArea() {
   console.log('closing share recipes');
   postRecipeArea.style.transform = 'translateY(100vh)';
-  
+  location.reload();
 }
 
 shareRecipeButton.addEventListener('click', openPostRecipeArea);
@@ -214,11 +216,6 @@ if ('caches' in window) {
     .then(function (data) {
       console.log('From cache', data);
       if (!networkDataReceived) {
-        /* console.log('executing clearCards');
-        clearCards();
-        console.log('executed clearCards');
-        console.log('creating new card');
-        createCard(); */
         var dataArray = [];
         for (var key in data) {
           dataArray.push(data[key]);
