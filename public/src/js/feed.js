@@ -10,7 +10,7 @@ var canvasElement = document.querySelector('#canvas');
 var captureButton = document.querySelector('#capture-btn');
 var imagePicker = document.querySelector('#image-picker');
 var picArea = document.querySelector('#pick-image');
-
+var picture;
 
 function initMedia(){
   if(!('mediaDevices' in navigator)){  //mediaDevices API accesses mobile media devices such as camera, microphone
@@ -47,12 +47,32 @@ captureButton.addEventListener('click', ((event)=>{
   context.drawImage(videoPlayer, 0, 0, canvas.width, videoPlayer.videoHeight / (videoPlayer.videoWidth / canvas.width));
   videoPlayer.srcObject.getVideoTracks().forEach((track)=>{
     track.stop();
-  })
-
+  });
+  picture = dataURItoBlob(canvasElement.toDataURL());
 }));
 
 
+
 function sendData(){
+  var id = new Date().toISOString();
+  var postData = new FormData();
+                    postData.append('id', id);
+                    postData.append('title', titleInput.value);
+                    postData.append('recipe', recipeInput.value);
+                   // postData.append('location', locationInput.value);
+                    postData.append('file', picture, id+ '.png');
+
+  fetch('https://us-central1-wg-food.cloudfunctions.net/storeRecipes', {
+    method:'POST',
+    body: postData
+  })
+  .then((res)=>{
+    console.log('Sent data', res);
+    updateUI(res);
+  })
+}
+
+/* function sendData(){
   fetch('https://us-central1-wg-food.cloudfunctions.net/storeRecipes', {
     method:'POST',
     headers: {
@@ -70,7 +90,7 @@ function sendData(){
     console.log('Sent data', res);
     updateUI(res);
   })
-}
+} */
 
 form.addEventListener('submit', function(event){
   event.preventDefault(); 
@@ -79,32 +99,34 @@ form.addEventListener('submit', function(event){
     alert('Please enter valid data.')
     return closePostRecipeArea();
   }
-  /*  
+  
 
   //Background Synchronisation - only supported on (original) chrome   
   
+    /* .then(function(){
   if('serviceWorker' in navigator && 'SyncManager' in window){
     navigator.serviceWorker.ready
-    .then(function(sw){
+    .then((sw)=>{
     var post = {
       id: new Date().toISOString(),
       title: titleInput.value,
-      recipe: recipeInput.value
+      recipe: recipeInput.value,
+      picture: picture
     };
     writeData('sync-posts', post)
-    .then(()=>{
       return sw.sync.register('sync-new-post');
-    })
-    .then(()=>{
+    }) */
+    /* .then(()=>{
       var snackbarContainer = document.querySelector('#confirmation-toast');
       var data = {message: 'Your recipe was saved for syncing!'};
       snackbarContainer.MaterialSnackbar.showSnackbar(data);
-    })
-    .catch((err)=>{
+    }) */
+    /* .catch((err)=>{
       console.log(err);
-    });      
-  });
-}*/
+    });      */
+ // }); 
+
+
 else { 
   sendData();
   

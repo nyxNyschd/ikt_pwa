@@ -9,6 +9,7 @@ var STATIC_FILES = [
     '/index.html',
     '/offline.html',
     '/src/js/app.js',
+    '/src/js/utility.js',
     '/src/js/feed.js',
     '/src/js/idb.js',
     '/src/js/material.min.js',
@@ -138,8 +139,49 @@ self.addEventListener('fetch', event =>{
 });
 
 //Background syncing - only supported on (original) chrome
-   
+
 self.addEventListener('sync', (event)=>{
+    console.log('[Service Worker] Background Syncing', event);
+    if(event.tag === 'sync-new-post'){
+        console.log('[Service Worker] Syncing new post');
+        event.waitUntil(
+            readAllData('sync-posts')
+            .then((data)=>{
+                for (var dat of data){
+
+                    var postData = new FormData();
+                    postData.append('id', dt.id);
+                    postData.append('title', dt.title);
+                    postData.append('recipe', dt.recipe);
+                    //postData.append('location', dt.location);
+                    postData.append('file', dt.image, dt.id+ '.png');
+
+                    fetch('https://us-central1-wg-food.cloudfunctions.net/storeRecipes', {
+                        method:'POST',
+                        body: postData
+                    })               
+                    .then((res)=>{
+                        console.log('Sent data', res); //now I can send it to firebase endpoint, get id from response
+                    if (res.ok){
+                        res.json()
+                        .then((resData)=>{
+                            deleteSingleItemFromData('sync-posts',resData.id);
+                        });
+                        
+                    }
+                    })
+                    .catch((err)=>{
+                        console.log('Error while sending data',err)
+                    });
+
+                }   
+        
+            })
+        );
+    }
+});
+   
+/* self.addEventListener('sync', (event)=>{
     console.log('[Service Worker] Background Syncing', event);
     if(event.tag === 'sync-new-post'){
         console.log('[Service Worker] Syncing new post');
@@ -179,7 +221,7 @@ self.addEventListener('sync', (event)=>{
             })
         );
     }
-});
+}); */
 
 //adding the notification-listener (notifications are a system event on my computer, handled by the serviceworker!)
 self.addEventListener('notificationclick', (event)=>{
