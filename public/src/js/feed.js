@@ -5,6 +5,51 @@ var sharedRecipesArea = document.querySelector('#shared-recipes');
 var form = document.querySelector('form');
 var titleInput = document.querySelector('#title');
 var recipeInput = document.querySelector('#recipe');
+var videoPlayer = document.querySelector('#player');
+var canvasElement = document.querySelector('#canvas');
+var captureButton = document.querySelector('#capture-btn');
+var imagePicker = document.querySelector('#image-picker');
+var picArea = document.querySelector('#pick-image');
+
+
+function initMedia(){
+  if(!('mediaDevices' in navigator)){  //mediaDevices API accesses mobile media devices such as camera, microphone
+    navigator.mediaDevices ={};    //support up to now is sparse --> therefore we are here creating our own mediaDevice object 
+  }
+
+ if(!('getUserMedia' in navigator.mediaDevices)){
+    navigator.mediaDevices.getUserMedia = function(constraints){
+        var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+                          //safari's video implemetation   || mozilla video implementation
+        if (!getUserMedia){
+          return Promise.reject(new Error('getUserMedia is not implemented!'));  //worst case: no possible implementation for userMedia
+        }
+        return new Promise((resolve,reject)=>{ 
+          getUserMedia.call(navigator,constraints,resolve,reject);  //refer to custom implementation for user Media
+        });
+    }                    
+  }  
+  navigator.mediaDevices.getUserMedia({video:true})  //option 2: {audio:true}
+  .then((stream)=>{
+    videoPlayer.srcObject = stream;
+    videoPlayer.style.display='block';
+  })
+  .catch(function(err){
+    picArea.style.display='block';
+  });
+}
+
+captureButton.addEventListener('click', ((event)=>{
+  canvasElement.style.display = 'block';
+  videoPlayer.style.display = 'none';
+  captureButton.style.display = 'none';
+  var context = canvasElement.getContext('2d');
+  context.drawImage(videoPlayer, 0, 0, canvas.width, videoPlayer.videoHeight / (videoPlayer.videoWidth / canvas.width));
+  videoPlayer.srcObject.getVideoTracks().forEach((track)=>{
+    track.stop();
+  })
+
+}));
 
 
 function sendData(){
@@ -70,6 +115,7 @@ else {
 function openPostRecipeArea(){
   postRecipeArea.style.display = 'block';
   setTimeout(()=>{postRecipeArea.style.transform = 'translateY(0)';})
+  initMedia();
   
   if (deferredPrompt){
     deferredPrompt.prompt();
@@ -92,6 +138,9 @@ function openPostRecipeArea(){
 function closePostRecipeArea() {
   console.log('closing share recipes');
   postRecipeArea.style.transform = 'translateY(100vh)';
+  picArea.style.display = 'none';
+  videoPlayer.style.display = 'none';
+  canvasElement.style.display = 'none';
   location.reload();
 }
 
