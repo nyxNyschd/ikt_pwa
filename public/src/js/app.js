@@ -109,8 +109,6 @@ function configurePushSubscriptions(){
   } 
    
 
-
-
 //handling user's choice when asked if they want to subscribe to notifications
 function askForNotificationPermission(){
   Notification.requestPermission((result)=>{

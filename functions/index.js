@@ -1,4 +1,4 @@
-//this script configures firebase backend
+//this script configures firebase backend server
 
 var functions = require("firebase-functions");
 var admin = require('firebase-admin');
@@ -15,7 +15,7 @@ admin.initializeApp({
  });
 
 
- // setting up push notifications to notify when new recipes were added (handling the http request object)
+ // store data in the database on new posts
  exports.storeRecipes = functions.https.onRequest((request, response) => {
    functions.logger.info("Logging activity", {structuredData: true});
    cors(request, response, ()=>{
@@ -25,13 +25,14 @@ admin.initializeApp({
         recipe: request.body.recipe,
         image : request.body.image
     })
+    //setting up push notifications to notify when new data is added to the database 
     .then(()=>{
         webpush.setVapidDetails('mailto: hungry@wg.org', 'BNxnE6Mez8eJtSV6IcmOjJNz9sXqU3iMMbEaDVCZFNmIh1QeZmvAUorENV_9tA-mX4IHlY047TLj9jSiCgdJuNo','sl7r6QspPOElNjRRZ1razeOCFPfvLWmC4QxKkfj9GB4');
         return admin.database().ref('subscriptions').once('value');
         
     })
     .then((subscriptions)=>{
-        subscriptions.forEach((sub)=>{
+        subscriptions.forEach((sub)=>{  //forEach is a firebase function looping through all the endpoints and keys
             var pushConfig = {
                 endpoint: sub.val().endpoint,
                 keys: {

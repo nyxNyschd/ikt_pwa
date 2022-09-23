@@ -183,6 +183,7 @@ self.addEventListener('sync', (event)=>{
 
 //adding the notification-listener (notifications are a system event on my computer, handled by the serviceworker!)
 self.addEventListener('notificationclick', (event)=>{
+
     //access notification: which notification was clicked
     var notification = event.notification;
     console.log(notification);
@@ -198,14 +199,18 @@ self.addEventListener('notificationclick', (event)=>{
         event.waitUntil(
             clients.matchAll()
             .then((cls)=>{
+
+                //find open notification windows managed by the serviceworker
                 var client = cls.find((c)=>{
                     return c.visibilityState=== 'visible';
                 });
-            if (client !== undefined) //if there is no open window 
+            //if there is no open window
+            if (client !== undefined)  
                 {client.navigate(notification.data.url);
             client.focus();
+
         } else {
-            client.openWindow(notification.data.url);
+            client.openWindow(notification.data.url); //uses the url set in the backend server: the /help page
         }
         notification.close();
             })
