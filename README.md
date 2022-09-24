@@ -37,9 +37,9 @@ _________________________
 # The implementation
 
 The current main-branch holds the implementation using google firebase as backend server: this can be found in the functions/index.js file
-Here, also serverside push notifications are implemented which are triggered when data was added
+Serverside push notifications are added which are triggered when data was added
 
-This approach was chosen to speed things up: firebase offers full backend endpoints, storage and functions support. (Disadvantages and second approach see below)
+This approach was chosen to speed things up: firebase offers full backend endpoints, storage and functions support. 
 
 The successful part of the client-side implementation consists of 
 1. The serviceWorker: public/sw.js 
