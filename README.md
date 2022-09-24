@@ -20,11 +20,16 @@ ___________________________________
 
 The author undertook two different approaches to the task, first due to time management issues, then because of unhappiness with the firebase setup. The result is therefore still a work in progress.
 
-1) main branch: Contains the nearly fully successful approach (but) using firebase server --> description see "implementation", downsides: "disadvantages"
+1) main branch: Contains the nearly fully successful approach (but) using firebase server --> description see "implementation", 
+     downsides: "disadvantages"
+     
      firebase_backend is equal to main
+     
      losing_firebase documents the (unfortunately undebugged) attempt to upload pictures to firebase as well as retrieve them
+     
 
 2) backend: contains the second approach creating a REST API using node.js and mongoDB. --> description see "Second approach"
+
    master: contains the frontend intended to be used with the second approach's backend, only containing rather basic functionalities,see "Second approach"
                      
 _________________________
