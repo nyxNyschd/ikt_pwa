@@ -158,7 +158,10 @@ self.addEventListener('sync', (event)=>{
                         title: dat.title,
                         recipe: dat.recipe,
                         image: 'https://firebasestorage.googleapis.com/v0/b/wg-food.appspot.com/o/summerrolls_sm.jpg?alt=media&token=3a51d92a-0580-4741-855b-cc98348d42be'
-                        })
+                        //rawLocationLat: dat.rawLocation.lat,
+                        //rawLocationLong : dat.rawLocation.lng
+    
+                    })
                     })               
                     .then((res)=>{
                         console.log('Sent data', res); //now I can send it to firebase endpoint, get id from response
@@ -298,3 +301,5 @@ self.addEventListener('push', (event)=>{
  // )
 
  //importScripts('src/js/idb.js');
+
+

@@ -10,6 +10,44 @@ var canvasElement = document.querySelector('#canvas');
 var captureButton = document.querySelector('#capture-btn');
 var imagePicker = document.querySelector('#image-picker');
 var picArea = document.querySelector('#pick-image');
+var locationButton = document.querySelector('#location-btn') ;
+var locationLoader = document.querySelector('#location-loader') ;
+var fetchedLocation;
+
+locationButton.addEventListener('click', (event)=>{
+  if(!('geolocation' in navigator)){
+    return;
+  }
+  locationButton.style.display ='none';
+  locationLoader.style.display ='block';
+  
+
+  navigator.geolocation.getCurrentPosition((position)=>{
+    locationButton.style.display ='inline';
+    locationLoader.style.display ='none';
+    fetchedLocation = {lat:position.coords.latitude, lng:0}; 
+    locationInput.value = 'In Berlin';
+    locationInput.classLisst.add('is-focused');
+
+  }, (err)=>{
+    console.log(err)
+    locationButton.style.display ='inline';
+    locationLoader.style.display ='none';
+    fetchedLocation = {lat:null, lng:null}; 
+    alert('No geodata signal')
+  }, 
+  {timeout: 5000}
+  );
+
+
+});
+
+function initLocation(){
+  if(!('geolocation' in navigator)){
+    locationButton.style.display ='none';
+  
+  }
+}
 
 
 function initMedia(){
@@ -64,6 +102,8 @@ function sendData(){
       title: titleInput.value,
       recipe: recipeInput.value,
       image: 'https://firebasestorage.googleapis.com/v0/b/wg-food.appspot.com/o/summerrolls_sm.jpg?alt=media&token=3a51d92a-0580-4741-855b-cc98348d42be'
+      //rawLocationLat: fetchedLocation.lat,
+      //rawLocationLong : fetchedLocation.lng
     })
   })
   .then((res)=>{
@@ -80,7 +120,6 @@ form.addEventListener('submit', function(event){
     return closePostRecipeArea();
   }
   /*  
-
   //Background Synchronisation - only supported on (original) chrome   
   
   if('serviceWorker' in navigator && 'SyncManager' in window){
@@ -89,7 +128,9 @@ form.addEventListener('submit', function(event){
     var post = {
       id: new Date().toISOString(),
       title: titleInput.value,
-      recipe: recipeInput.value
+      recipe: recipeInput.value,
+      picture: picture,
+      rawLocation: fetchedLocation
     };
     writeData('sync-posts', post)
     .then(()=>{
@@ -141,6 +182,8 @@ function closePostRecipeArea() {
   picArea.style.display = 'none';
   videoPlayer.style.display = 'none';
   canvasElement.style.display = 'none';
+  locationButton.style.display = 'inline';
+  locationLoader.style.display = 'none';
   location.reload();
 }
 
