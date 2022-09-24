@@ -1,18 +1,41 @@
-#create-post {
+#post-recipe {
   z-index: 1001;
   position: fixed;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100vh ;
   overflow-y: scroll;
   bottom: 0;
-  top: 56px;
+  top: 0;
   background: white;
   text-align: center;
   display: none;
+  transform: translateY(100vh);
+  transition: transform 0.3s;
 }
 
+#post-recipe video, #post-recipe canvas{
+  width: 512px;
+  max-width: 100%;
+  display:none;
+  margin:auto;
+}
+ 
+#post-recipe #pick-image{
+  display:none;
+}
+
+
+#post-recipe #capture-btn{
+  margin: auto;
+}
+
+.mdl-spinner{
+  margin:auto;
+}
+
+
 .main-image {
-  max-width: 200%;  
+  max-width: 100%;  
   margin: auto;
   display: block;
 }
@@ -30,7 +53,31 @@
   margin: 10px auto;
 }
 
+.shared-recipe-card.mdl-card{
+  width: 332px;  
+  height: 320px;
+  color:white;
+  margin: auto;
+  margin-top:40px;
+  display: block;
+}
 
+@media(min-width: 600px) {
+  .shared-recipe-card.mdl-card{
+    width: 332px;
+}
+
+.mdl-card__title-text{
+  padding: 10px;
+  text-align:center;
+  font-size: x-large;
+  text-shadow: 1px 1px black;
+}
+
+#recipe_button{
+  display:block;
+  margin:auto;
+}
 
 .mdl-layout--fixed-drawer{
   display:block;

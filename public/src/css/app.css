@@ -7,15 +7,45 @@
   padding: 16px;
 }
 
+.enable-notifications{
+  display:none;
+}
 .flex_container{
   display: flex;
+}
+
+#fridge.main-image{ 
+  width: 99%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media(min-width: 900px) {
+  #fridge.main-image{
+    width: 80%;
+  }
+}
+@media(min-width: 1200px) {
+  #fridge.main-image{
+    width: 70%;
+    }
+}
+@media(min-width: 1600px) {
+  #fridge.main-image{
+    width: 60%;
+    }
+}
+
+@media(min-width: 2000px) {
+  #fridge.main-image{
+    width: 50%;
+    }
 }
 
 
 
 #main_image_text{
-  position: relative;
-  
+  position: relative;  
   font-weight: bold;
   font-size:x-large;
 }
@@ -29,36 +59,7 @@
   
 }
 
-.empty_fridge-image.mdl-card{
-  width: 256px;
-  height: 256px;
-  position: absolute;
-  bottom: 10px;
-  background: url('/src/images/empty_frisep_m.png') center / cover;
-}
-.empty_fridge-image > .mdl-card__actions {
-  height: 52px;
-  padding: 16px;
-  background: rgba(0, 0, 0, 0.2);
-}
-.empty_fridge-image__title {
-  color: #fff;
-  font-size: 14px;
-  font-weight: 500;
-}
 
-.shared-recipe-card{
-  max-width: 100%;
-  
-  margin: auto;
-  margin-top:40px;
-  display: block;
-}
-
-.shared-recipe-card >.mdl-card__title-text{
-  color:cyan;
-  text-align:right;
-}
 
 
 
