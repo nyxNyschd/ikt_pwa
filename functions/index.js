@@ -87,8 +87,8 @@ admin.initializeApp({
                 .then(function() {
                   webpush.setVapidDetails(
                     'mailto: hungry@wg.org', 
-                    'BNxnE6Mez8eJtSV6IcmOjJNz9sXqU3iMMbEaDVCZFNmIh1QeZmvAUorENV_9tA-mX4IHlY047TLj9jSiCgdJuNo',
-                    'sl7r6QspPOElNjRRZ1razeOCFPfvLWmC4QxKkfj9GB4'
+                     pubkey,
+                     privkey
                   );
                   return admin
                     .database()
