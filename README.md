@@ -37,12 +37,13 @@ _________________________
 # The implementation
 
 The current main-branch holds the implementation using google firebase as backend server: this can be found in the functions/index.js file
-Serverside push notifications are added which are triggered when data was added
 
-This approach was chosen to speed things up: firebase offers full backend endpoints, storage and functions support. 
+Serverside push notifications are implemented:they are triggered when new data has been added
+
+#### This approach was chosen to speed things up: firebase offers full backend endpoints, storage and functions support. 
 
 The successful part of the client-side implementation consists of 
-1. The serviceWorker: public/sw.js 
+### 1. The serviceWorker: public/sw.js 
 offering the following features:
 - making the app installable, and offline available (of course along withpublic/manifest.json)
 - static and dynamic caching 
@@ -51,7 +52,7 @@ offering the following features:
 implemented but due to browser support not testable (the author uses linux chromium, browser support only for "real" chrome):
 - backend synchronisation
 
-2. client.side action handlers: public/src/js/feed.js
+### 2. client.side action handlers: public/src/js/feed.js
 offering:
 - responsive design (by a medium talented designer as the author needs to call themselves)
 - web push notifications triggerd by user-actions in the frontend
@@ -62,7 +63,7 @@ offering:
 
 __________________________________________
 
-# Disadvantages of chosing firebase
+### Disadvantages of chosing firebase
 
 -The need to hand over data to google
 (in general if you want google to delete data found in public, here is a form to claim your data and have it deleted): 
