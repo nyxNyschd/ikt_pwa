@@ -11,7 +11,7 @@ _________________
 
 Not yet implemented, but definitely great for future implementation which the author is excited about: 
 - webscraping the ingredients of the uploaded recipes (this would involve limiting urls for recipe upload to a scrapable site)
-- a from to share your mum's recipes not to be found online
+- a form to share your mum's recipes not to be found online
 - a button "i want to cook this today" which adds the needed ingredients and amounts to the shoppinglist 
   --> triggers a push-notification: "Your flatmate wants to cook today, please support them by going shopping"
 ___________________________________
