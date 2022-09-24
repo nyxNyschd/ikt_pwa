@@ -52,7 +52,7 @@ offering the following features:
 implemented but due to browser support not testable (the author uses linux chromium, browser support only for "real" chrome):
 - backend synchronisation
 
-### 2. client.side action handlers: public/src/js/feed.js
+### 2. client-side features and action handlers: public/src/js/feed.js
 offering:
 - responsive design (by a medium talented designer as the author needs to call themselves)
 - web push notifications triggerd by user-actions in the frontend
