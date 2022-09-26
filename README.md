@@ -22,15 +22,13 @@ The author undertook two different approaches to the task, first due to time man
 
 1) main branch: Contains the nearly fully successful approach (but) using firebase server --> description see "implementation", 
      downsides: "disadvantages"
-     
-     firebase_backend is equal to main
-     
+          
      losing_firebase documents the (unfortunately undebugged) attempt to upload pictures to firebase as well as retrieve them
      
 
 2) backend: contains the second approach creating a REST API using node.js and mongoDB. --> description see "Second approach"
 
-   master: contains the frontend intended to be used with the second approach's backend, only containing rather basic functionalities,see "Second approach"
+   master: contains the frontend intended to be used with the second approach's backend, functionalities: see "second approach"
                      
 _________________________
 
@@ -45,9 +43,9 @@ Serverside push notifications are implemented:they are triggered when new data h
 The successful part of the client-side implementation consists of 
 ### 1. The serviceWorker: public/sw.js 
 offering the following features:
-- making the app installable, and offline available (of course along withpublic/manifest.json)
+- making the app installable, and offline available (also see public/manifest.json)
 - static and dynamic caching 
-- implemetation of indexed db
+- implementation of indexed db (see also feed.js)
 
 implemented but due to browser support not testable (the author uses linux chromium, browser support only for "real" chrome):
 - backend synchronisation
@@ -86,8 +84,13 @@ Uploading, storing and updating data of different formats: C- U
 Still in debugging: Reading/downloading data: R
 To be implemented: Deleting data: D
 
+The according frontend to be found in the "master" branch contains the following functionalities:
+-offline availibility
+-installability
+- caching: static, dynamic and IndexedDB
+
 ToDo:
-- the successful debugging of the download functionality. 
+- the successful debugging of the download functionality 
 - implementing delete data from server
-- Bringing the frontend (--> to be found in the master-branch) up to the state of the firebase-implementation
+- Bringing the frontend of the master-branch up to the state of the firebase-(main)-implementation
 - Connecting frontend to backend.
