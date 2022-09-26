@@ -27,6 +27,7 @@ admin.initializeApp({
     })
     //setting up push notifications to notify when new data is added to the database 
     .then(()=>{
+
         webpush.setVapidDetails('mailto: hungry@wg.org', pubkey, privkey);
         return admin.database().ref('subscriptions').once('value');
         
