@@ -21,26 +21,12 @@ var STATIC_FILES = [
 
 
 
-/* function trimCache(cacheName, maxItems) {
-    caches.open(cacheName)
-    .then(function(cache) {
-        return cache.keys()
-        .then(function(keys){
-            if (keys.length > maxItems) {
-                cache.delete(keys[0])
-                .then(trimCache(cacheName, maxItems));
-                console.log('cache trimmed')
-            }
-    });
-})
-} */
-
 //open indexedDB
-/* var dbPromise = idb.open('food-store', 1, function(db){
+var dbPromise = idb.open('food-store', 1, function(db){
     if (!db.objectStoreNames.contains('posts')){
     db.createObjectStore('posts', {keyPath: 'id'});
     }
-});  */
+});  
 
 self.addEventListener('install', event =>{
     console.log('[Service Worker] Installing Service Worker ...', event);
@@ -84,15 +70,16 @@ self.addEventListener('fetch', event =>{
    
     if (event.request.url.indexOf(url) > -1){
         event.respondWith(fetch(event.request)
-        .then((res)=>{                                            //  caches.open(CACHE_DYNAMIC_NAME)  .then((cache)=>{   return
-            var clonedRes = res.clone();                                                           //  trimCache(CACHE_DYNAMIC_NAME, 5);
-            clearAllData('posts')                                 //cache.put(event.request, res.clone());
+        .then((res)=>{                                           
+            var clonedRes = res.clone();                                                          
+            clearAllData('posts')                                
             .then(()=>{
                 return clonedRes.json();
             })                                                        
             .then((data)=>{
                 for (var key in data) {
-                    //dbPromise //access promise and store posts
+                    //access indexedDb's promise and store posts
+                    dbPromise 
                     writeData('posts',data[key])
                 }
             });
@@ -300,6 +287,5 @@ self.addEventListener('push', (event)=>{
  //     new workbox.strategies.NetworkFirst()     // NetworkFirst() vs CacheFirst()
  // )
 
- //importScripts('src/js/idb.js');
 
 
