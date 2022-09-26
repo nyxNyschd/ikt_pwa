@@ -191,19 +191,6 @@ shareRecipeButton.addEventListener('click', openPostRecipeArea);
 closeShareRecipeAreaButton.addEventListener('click', closePostRecipeArea);
 
 
-//Currently not in use, enables caching recipes on demand
-function getRecipe(event) {
-  console.log('clicked');
-  if ('caches' in window) {
-    caches.open('user-request')
-      .then((cache) => {
-        cache.add('https://httpbin.org/get');
-        cache.add('/src/images/summerrolls.jpg');
-        console.log('added user-request')
-      });
-  }
-}
-
 function clearCards() {
   while (sharedRecipesArea.hasChildNodes()) {
     sharedRecipesArea.removeChild(sharedRecipesArea.lastChild);
@@ -272,24 +259,12 @@ fetch(url)
     updateUI(dataArray);
   });
 
-
-/* fetch('https://httpbin.org/get')
-.then((res)=>{
-    return res.json();})
-.then((data)=>{
-  console.log('From web', data);
-  console.log('executing clearCards');
-  clearCards();
-  console.log('executed clearCards');
-  console.log('creating new card');
-  createCard()}); */
-
-
+//accessing indexedDB's data
   if ('indexedDB' in window) {
     readAllData('posts')
     .then(function(data){
       if (!networkDataReceived){
-        console.log('From cache', data);
+        console.log('From indexedDB', data);
         updateUI(data);
       }
     })

@@ -27,7 +27,8 @@ admin.initializeApp({
     })
     //setting up push notifications to notify when new data is added to the database 
     .then(()=>{
-        webpush.setVapidDetails('mailto: hungry@wg.org', pubkey, privkey);
+        webpush.setVapidDetails('mailto: hungry@wg.org', 'BNxnE6Mez8eJtSV6IcmOjJNz9sXqU3iMMbEaDVCZFNmIh1QeZmvAUorENV_9tA-mX4IHlY047TLj9jSiCgdJuNo',
+        'sl7r6QspPOElNjRRZ1razeOCFPfvLWmC4QxKkfj9GB4');
         return admin.database().ref('subscriptions').once('value');
         
     })
